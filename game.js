@@ -51,9 +51,9 @@ class GameScene extends Phaser.Scene {
         });
 
         // Set up movement physics properties
-        this.acceleration = 250; // Further reduced for more controlled movement
-        this.deceleration = 400; // Reduced deceleration to match
-        this.maxSpeed = 250; // Reduced maximum movement speed
+        this.acceleration = 400; // Reduced from 800 for more controlled movement
+        this.deceleration = 600; // How quickly players slow down
+        this.maxSpeed = 400; // Maximum movement speed (but not hard capped)
         
         // Add collision between players and ground
         this.physics.add.collider(this.player1, this.ground);
@@ -93,9 +93,6 @@ class GameScene extends Phaser.Scene {
 
         // Create attack flash overlay (initially hidden)
         this.createAttackFlash();
-
-        // Create control list display
-        this.createControlList();
     }
 
     setupPlayerAnimations() {
@@ -143,9 +140,6 @@ class GameScene extends Phaser.Scene {
         this.attackFlash = this.add.rectangle(400, 300, 800, 600, 0xFFFFFF, 0);
         this.attackFlash.setVisible(false);
         this.attackFlash.setDepth(1000); // Make sure it's on top of everything
-        
-        // Set initial alpha to 0 to prevent black screen
-        this.attackFlash.setAlpha(0);
     }
 
     triggerAttackFlash(attackerPlayer) {
@@ -160,7 +154,6 @@ class GameScene extends Phaser.Scene {
         // Set the flash color and make it visible
         this.attackFlash.setFillStyle(flashColor, 0.3); // 30% opacity
         this.attackFlash.setVisible(true);
-        this.attackFlash.setAlpha(0.3); // Start at 30% opacity
         
         // Fade out the flash over 150ms
         this.tweens.add({
@@ -170,82 +163,9 @@ class GameScene extends Phaser.Scene {
             ease: 'Power2',
             onComplete: () => {
                 this.attackFlash.setVisible(false);
-                this.attackFlash.setAlpha(0); // Reset alpha to 0 for next flash
+                this.attackFlash.alpha = 1; // Reset alpha for next flash
             }
         });
-    }
-
-    createControlList() {
-        // Create a semi-transparent background for the control list
-        this.controlBackground = this.add.rectangle(680, 150, 220, 240, 0x000000, 0.7);
-        this.controlBackground.setStroke(0xFFFFFF, 2);
-
-        // Title
-        this.add.text(680, 80, 'CONTROLS', {
-            fontSize: '18px',
-            fill: '#ffffff',
-            fontFamily: 'Arial',
-            fontStyle: 'bold'
-        }).setOrigin(0.5);
-
-        // Player 1 controls
-        this.add.text(680, 110, 'Player 1 (Teal)', {
-            fontSize: '14px',
-            fill: '#00CED1',
-            fontFamily: 'Arial',
-            fontStyle: 'bold'
-        }).setOrigin(0.5);
-
-        this.add.text(680, 130, '← → : Move', {
-            fontSize: '12px',
-            fill: '#ffffff',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5);
-
-        this.add.text(680, 145, '↑ : Jump', {
-            fontSize: '12px',
-            fill: '#ffffff',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5);
-
-        this.add.text(680, 160, 'SPACE : Attack', {
-            fontSize: '12px',
-            fill: '#ffffff',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5);
-
-        // Player 2 controls
-        this.add.text(680, 185, 'Player 2 (Red)', {
-            fontSize: '14px',
-            fill: '#FF6347',
-            fontFamily: 'Arial',
-            fontStyle: 'bold'
-        }).setOrigin(0.5);
-
-        this.add.text(680, 205, 'A D : Move', {
-            fontSize: '12px',
-            fill: '#ffffff',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5);
-
-        this.add.text(680, 220, 'W : Jump', {
-            fontSize: '12px',
-            fill: '#ffffff',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5);
-
-        this.add.text(680, 235, 'S : Attack', {
-            fontSize: '12px',
-            fill: '#ffffff',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5);
-
-        // Restart instruction
-        this.add.text(680, 260, 'R : Restart (when game over)', {
-            fontSize: '10px',
-            fill: '#CCCCCC',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5);
     }
 
     showEndScreen(winner) {
