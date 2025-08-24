@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>2D Fighting Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+        }
+        canvas {
+            border: 2px solid #fff;
+        }
+        .healthbar {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="healthbar">
+        <div id="player1-health">P1: 100%</div>
+        <div id="player2-health">P2: 100%</div>
+    </div>
+    <script src="assets/stick-figures.js"></script>
+    <script src="game.js"></script>
+</body>
+</html> 
